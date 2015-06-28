@@ -13,8 +13,6 @@ import com.bhavit.pnrexpress.util.RestClient;
 import com.google.gson.Gson;
 import com.jaunt.Element;
 import com.jaunt.Elements;
-import com.jaunt.NotFound;
-import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import com.jaunt.component.Table;
 
@@ -60,8 +58,24 @@ public class LiveStatusService extends HttpServlet {
 						.trim().split("/")[0];
 				String actualDeparture = elements.getElement(4).innerHTML()
 						.trim().split("/")[1];
-				String trainStatus = elements.getElement(5).innerHTML().trim();
+				
+				String trainStatus = "";
+				System.out.println(elements.getElement(5).innerHTML());
+				if(!elements.getElement(5).innerHTML().trim().equals("")){
+				userAgent.openContent(elements.getElement(5).innerHTML().trim());
+				
+				Element font = userAgent.doc.findFirst("<font>");
+				trainStatus =  font.innerHTML();
+				
+				
+				userAgent.openContent(elements.getElement(5).innerHTML().trim().split(" / ")[1]);
+				font = userAgent.doc.findFirst("<font>");
+				trainStatus = trainStatus+"/"+font.innerHTML();
+				} else {
+					trainStatus = "";
+				}
 
+				
 				array.add(new LiveStatuspojo(station, platform,
 						scheduledArrival, scheduledDeparture, actualArrival,
 						actualDeparture, trainStatus));
