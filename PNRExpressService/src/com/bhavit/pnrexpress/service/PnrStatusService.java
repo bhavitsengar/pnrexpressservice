@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bhavit.pnrexpress.model.PnrStatusPojo;
 import com.bhavit.pnrexpress.model.Passenger;
-import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
 import com.google.gson.Gson;
 import com.jaunt.Elements;
@@ -28,7 +28,7 @@ import com.jaunt.component.Table;
 public class PnrStatusService extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		
+
 		String pnr = (String) req.getParameter("pnr");
 
 		HashMap<Object, Object> map = new HashMap<Object, Object>();
@@ -41,13 +41,12 @@ public class PnrStatusService extends HttpServlet {
 			client.addStringBody("pnr=" + pnr);
 
 			String result = client.executePost();
+			System.out.println(result);
 
-			if(!result.contains("flushed")){
-			
 			UserAgent userAgent = new UserAgent();
 
 			userAgent.openContent(result);
-		
+
 			Table table = userAgent.doc.getTable(0); // find table element
 
 			Elements elements = table.getRow(1);
@@ -114,9 +113,9 @@ public class PnrStatusService extends HttpServlet {
 					reservationUptoName, reservationClass, noOfPassengers,
 					chart, listPassengers));
 
-			} else {
-				map.put("error", "PNR number is either expired or not generated yet.");
-			}
+		}catch(NoSuchElementException e){
+			map.put("error", "Pnr number is either expired or doesn't exist.");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("error", "Network Error Occurred. Please try again.");

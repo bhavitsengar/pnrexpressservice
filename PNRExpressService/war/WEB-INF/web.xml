@@ -20,6 +20,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>PnrStatusService</servlet-name>
 		<url-pattern>/PnrStatusService</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>TrainRouteService</servlet-name>
+		<servlet-class>com.bhavit.pnrexpress.service.TrainRouteService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrainRouteService</servlet-name>
+		<url-pattern>/TrainRouteService</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
