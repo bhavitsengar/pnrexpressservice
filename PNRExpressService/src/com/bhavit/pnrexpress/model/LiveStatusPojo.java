@@ -1,6 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Bhavit Singh Sengar.
+ *
+ * All Rights Reserved.
+ *******************************************************************************/
+
 package com.bhavit.pnrexpress.model;
 
-public class LiveStatuspojo {
+public class LiveStatusPojo {
 
 	String station;
 	String platform;
@@ -51,7 +57,7 @@ public class LiveStatuspojo {
 	public void setTrainStatus(String trainStatus) {
 		this.trainStatus = trainStatus;
 	}
-	public LiveStatuspojo(String station, String platform,
+	public LiveStatusPojo(String station, String platform,
 			String scheduledArrival, String scheduledDeparture,
 			String actualArrival, String actualDeparture, String trainStatus) {
 		super();
