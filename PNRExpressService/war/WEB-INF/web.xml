@@ -28,6 +28,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>TrainRouteService</servlet-name>
 		<url-pattern>/TrainRouteService</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>TrainsBetweenStationService</servlet-name>
+		<servlet-class>com.bhavit.pnrexpress.service.TrainsBetweenStationService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrainsBetweenStationService</servlet-name>
+		<url-pattern>/TrainsBetweenStationService</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
