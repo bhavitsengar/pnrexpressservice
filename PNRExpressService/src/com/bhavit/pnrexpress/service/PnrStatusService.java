@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bhavit.pnrexpress.model.PnrStatusPojo;
 import com.bhavit.pnrexpress.model.Passenger;
+import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
 import com.google.gson.Gson;
 import com.jaunt.Elements;
@@ -28,6 +29,26 @@ import com.jaunt.component.Table;
 public class PnrStatusService extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		
+		String pnr = (String) req.getParameter("pnr");
+
+		
+		RestClient client = new RestClient(
+				"http://api.railwayapi.com/pnr_status/pnr/"+pnr+"/apikey/"+Helper.apikey);
+		client.addHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+
+		String result = client.executeGet();
+		System.out.println(result);
+
+		resp.setContentType("application/json");
+		resp.getWriter().print(result);
+		
+		
+/**********************************************************************************************************************/		
+		
+		
+		/*
 
 		String pnr = (String) req.getParameter("pnr");
 
@@ -126,6 +147,6 @@ public class PnrStatusService extends HttpServlet {
 		resp.setContentType("application/json");
 		resp.getWriter().print(g.toJson(map));
 
-	}
+	*/}
 
 }

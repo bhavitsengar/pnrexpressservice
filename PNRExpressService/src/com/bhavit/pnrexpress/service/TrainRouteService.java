@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bhavit.pnrexpress.model.Station;
+import com.bhavit.pnrexpress.model.Train;
 import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 import com.jaunt.Element;
 import com.jaunt.Elements;
@@ -47,6 +49,18 @@ public class TrainRouteService extends HttpServlet {
 				UserAgent userAgent = new UserAgent();
 
 				userAgent.openContent(result);
+			
+				Element tNameSpan = userAgent.doc.findFirst("<span class=train-name>");
+				String trainName = tNameSpan.innerHTML().trim().replaceAll("\\t+", "");
+				
+				Element runsOnSpan = userAgent.doc.findFirst("<span class=train-days>");
+				String runsOn = runsOnSpan.innerHTML().trim().replaceAll("\\t+", "");;
+				
+				Train obj = new Train();
+				obj.setTrainName(trainName);
+				obj.setRunsOn(runsOn);
+				
+				map.put("train_information", obj);
 
 				Table table = userAgent.doc.getTable("<table class=default-table>");  //find table element
 

@@ -16,17 +16,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bhavit.pnrexpress.model.Train;
+import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
 import com.google.gson.Gson;
 import com.jaunt.Element;
 import com.jaunt.Elements;
 import com.jaunt.UserAgent;
+import com.jaunt.component.Form;
 import com.jaunt.component.Table;
 
 @SuppressWarnings("serial")
 public class TrainsBetweenStationService extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		
+		String from = (String) req.getParameter("from");
+		String to = (String) req.getParameter("to");
+		String date = (String) req.getParameter("date");
+		String classs = (String) req.getParameter("class");
+		String quota = (String) req.getParameter("quota");
+
+		
+		RestClient client = new RestClient(
+				"http://api.railwayapi.com/between/source/"+from+"/dest/"+to+"/date/"+date+"/apikey/"+Helper.apikey);
+		client.addHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+
+		String result = client.executeGet();
+		System.out.println(result);
+
+		resp.setContentType("application/json");
+		resp.getWriter().print(result);
+		
+		
+/**********************************************************************************************************************/	
+		
+		/*
 		
 		String from = (String) req.getParameter("from");
 		String to = (String) req.getParameter("to");
@@ -110,6 +135,6 @@ public class TrainsBetweenStationService extends HttpServlet {
 		resp.setContentType("application/json");
 		resp.getWriter().print(g.toJson(map));
 
-	}
+	*/}
 
 }

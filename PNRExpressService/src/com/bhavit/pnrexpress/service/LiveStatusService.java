@@ -90,6 +90,8 @@ public class LiveStatusService extends HttpServlet {
 							.trim().split(" / ")[1]);
 					font = userAgent.doc.findFirst("<font>");
 					trainStatus = trainStatus + "/" + font.innerHTML();
+					if(trainStatus.contains("Arrived"))	 
+						trainStatus = "Arrived/"+ font.innerHTML();
 				} else if (elements.getElement(5).innerHTML().trim()
 						.contains("Waiting for Update")) {
 

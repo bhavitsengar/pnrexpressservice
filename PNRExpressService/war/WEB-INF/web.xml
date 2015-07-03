@@ -36,6 +36,30 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>TrainsBetweenStationService</servlet-name>
 		<url-pattern>/TrainsBetweenStationService</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateCheckService</servlet-name>
+		<servlet-class>com.bhavit.pnrexpress.service.UpdateCheckService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateCheckService</servlet-name>
+		<url-pattern>/UpdateCheckService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PnrStatusServiceNew</servlet-name>
+		<servlet-class>com.bhavit.pnrexpress.service.PnrStatusServiceNew</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PnrStatusServiceNew</servlet-name>
+		<url-pattern>/PnrStatusServiceNew</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SeatAvailabilityService</servlet-name>
+		<servlet-class>com.bhavit.pnrexpress.service.SeatAvailabilityService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SeatAvailabilityService</servlet-name>
+		<url-pattern>/SeatAvailabilityService</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

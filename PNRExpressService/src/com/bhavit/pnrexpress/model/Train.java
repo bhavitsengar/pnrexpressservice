@@ -12,7 +12,10 @@ public class Train {
 	String runsOn;
 	String classes;
 	String seatAvailabilityQuery;
-	
+
+	public Train() {
+
+	}
 
 	public Train(String trainName, String trainNo, String fromStation,
 			String toStation, String departureTime, String arrivalTime,

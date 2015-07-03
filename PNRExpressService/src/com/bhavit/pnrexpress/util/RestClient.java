@@ -89,7 +89,7 @@ public class RestClient {
 			urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
 			urlConnection.setRequestMethod("POST");
 			urlConnection.setDoOutput(true);
-
+			
 			String urlParameters = "";
 			if(obj.length() == 0)
 				urlParameters = data;
@@ -100,7 +100,7 @@ public class RestClient {
 			wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
-			// urlConnection.setReadTimeout(DATARETRIEVAL_TIMEOUT);
+			//urlConnection.setReadTimeout(DATARETRIEVAL_TIMEOUT);
 
 			// handle issues
 			int statusCode = urlConnection.getResponseCode();
