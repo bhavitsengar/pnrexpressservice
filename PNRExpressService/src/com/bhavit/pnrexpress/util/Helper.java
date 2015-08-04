@@ -8,7 +8,8 @@ package com.bhavit.pnrexpress.util;
 
 public class Helper {
 	
-	public static String apikey = "ldchv8253";
+	public static String publicapikey  = "eec70e558f2455fda36a072200fb9994";
+	public static String privateapikey = "904f2a3cc00de92cbe67218040015fe3";
 
 	public static void setProxy(){
 		

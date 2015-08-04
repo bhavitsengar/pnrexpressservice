@@ -5,10 +5,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jaunt1.0.0.1.jar"/>
-	<classpathentry kind="lib" path="D:/Eclipse J2EE/plugins/com.google.appengine.eclipse.sdkbundle_1.9.19/appengine-java-sdk-1.9.19/lib/user/appengine-api-1.0-sdk-1.9.19.jar" sourcepath="D:/Eclipse J2EE/plugins/com.google.appengine.eclipse.sdkbundle_1.9.19/appengine-java-sdk-1.9.19/src/user/appengine-api-1.0-sdk-1.9.19-src.zip">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/D:/Eclipse%20J2EE/plugins/com.google.appengine.eclipse.sdkbundle_1.9.19/appengine-java-sdk-1.9.19/docs/javadoc/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
