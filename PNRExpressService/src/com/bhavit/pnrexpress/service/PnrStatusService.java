@@ -7,24 +7,14 @@
 package com.bhavit.pnrexpress.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bhavit.pnrexpress.model.PnrStatusPojo;
-import com.bhavit.pnrexpress.model.Passenger;
 import com.bhavit.pnrexpress.util.HMACGenarator;
 import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
-import com.google.gson.Gson;
-import com.jaunt.Elements;
-import com.jaunt.UserAgent;
-import com.jaunt.component.Table;
 
 @SuppressWarnings("serial")
 public class PnrStatusService extends HttpServlet {

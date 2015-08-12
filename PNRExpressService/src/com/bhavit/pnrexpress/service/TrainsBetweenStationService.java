@@ -7,24 +7,14 @@
 package com.bhavit.pnrexpress.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bhavit.pnrexpress.model.Train;
 import com.bhavit.pnrexpress.util.HMACGenarator;
 import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
-import com.google.gson.Gson;
-import com.jaunt.Element;
-import com.jaunt.Elements;
-import com.jaunt.UserAgent;
-import com.jaunt.component.Form;
-import com.jaunt.component.Table;
 
 @SuppressWarnings("serial")
 public class TrainsBetweenStationService extends HttpServlet {
@@ -35,7 +25,6 @@ public class TrainsBetweenStationService extends HttpServlet {
 		String to = (String) req.getParameter("to");
 		String date = (String) req.getParameter("date");
 		String classs = (String) req.getParameter("class");
-		String quota = (String) req.getParameter("quota");
 
 		RestClient client = new RestClient(
 				"http://railpnrapi.com/api/trains_between_stations/fscode/"
@@ -44,15 +33,15 @@ public class TrainsBetweenStationService extends HttpServlet {
 						+ to
 						+ "/date/"
 						+ date
-						+ "/class/"
-						+ classs
+						+ (classs.equalsIgnoreCase("all")?"":"/class/")
+						+ (classs.equalsIgnoreCase("all")?"":classs)
 						+ "/orderby/time/format/json/pbapikey/"
 						+ Helper.publicapikey
 						+ "/pbapisign/"
 						+ HMACGenarator
 								.getSignature(
 										Helper.privateapikey,
-										(classs + date + "json" + from + "time" + Helper.publicapikey+to)
+										((classs.equalsIgnoreCase("all")?"":classs) + date + "json" + from + "time" + Helper.publicapikey+to)
 												.toLowerCase()));
 
 		String result = client.executeGet();
