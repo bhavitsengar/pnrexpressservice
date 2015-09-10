@@ -52,6 +52,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>SeatAvailabilityService</servlet-name>
 		<url-pattern>/SeatAvailabilityService</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>SubmitLocation</servlet-name>
+		<servlet-class>com.bhavit.pnrexpress.service.SubmitLocation</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubmitLocation</servlet-name>
+		<url-pattern>/SubmitLocation</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
