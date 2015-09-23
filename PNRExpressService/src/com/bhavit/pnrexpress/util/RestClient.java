@@ -26,17 +26,20 @@ import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Scanner;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class RestClient {
-
+	
+	HttpURLConnection urlConnection;
 	String data = new String();
 	JSONObject obj = new JSONObject();
 	String url;
@@ -46,7 +49,18 @@ public class RestClient {
 
 	public RestClient(String s) {
 
-		url = s;
+		URL urlToRequest;
+		try {
+			urlToRequest = new URL(s);
+			urlConnection = (HttpURLConnection) urlToRequest.openConnection();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void addStringBody(String obj) {
@@ -63,8 +77,7 @@ public class RestClient {
 
 	public void addHeader(String name, String value) {
 
-		headerName = name;
-		headerValue = value;
+		urlConnection.setRequestProperty(name, value);
 
 	}
 
@@ -81,22 +94,23 @@ public class RestClient {
 
 	public String executePost() {
 
-		HttpURLConnection urlConnection = null;
 		try {
 			// create connection
-			URL urlToRequest = new URL(url);
-			urlConnection = (HttpURLConnection) urlToRequest.openConnection();
+			
 			urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
 			urlConnection.setRequestMethod("POST");
 			urlConnection.setDoOutput(true);
 			
 			String urlParameters = "";
+
 			if(obj.length() == 0)
 				urlParameters = data;
 			else
 				urlParameters = obj.toString();
-			DataOutputStream wr = new DataOutputStream(
+			
+			DataOutputStream  wr = new DataOutputStream (
 					urlConnection.getOutputStream());
+			
 			wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
@@ -115,13 +129,8 @@ public class RestClient {
 					urlConnection.getInputStream());
 			return getResponseText(in);
 
-		} catch (MalformedURLException e) {
-			// URL is invalid
-		} catch (SocketTimeoutException e) {
-			// data retrieval or connection timed out
-		} catch (IOException e) {
-			// could not read response body
-			// (could not create input stream)
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (urlConnection != null) {
 				urlConnection.disconnect();
@@ -133,11 +142,8 @@ public class RestClient {
 
 	public String executeGet() {
 
-		HttpURLConnection urlConnection = null;
 		try {
-			// create connection
-			URL urlToRequest = new URL(url);
-			urlConnection = (HttpURLConnection) urlToRequest.openConnection();
+
 			urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
 			// urlConnection.setReadTimeout(DATARETRIEVAL_TIMEOUT);
 
@@ -154,13 +160,8 @@ public class RestClient {
 					urlConnection.getInputStream());
 			return getResponseText(in);
 
-		} catch (MalformedURLException e) {
-			// URL is invalid
-		} catch (SocketTimeoutException e) {
-			// data retrieval or connection timed out
-		} catch (IOException e) {
-			// could not read response body
-			// (could not create input stream)
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (urlConnection != null) {
 				urlConnection.disconnect();
