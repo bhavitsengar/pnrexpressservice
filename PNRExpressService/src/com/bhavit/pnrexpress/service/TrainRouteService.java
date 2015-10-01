@@ -15,11 +15,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mortbay.util.ajax.JSONObjectConvertor;
+
 import com.bhavit.pnrexpress.model.Station;
 import com.bhavit.pnrexpress.model.Train;
+import com.bhavit.pnrexpress.util.HMACGenarator;
 import com.bhavit.pnrexpress.util.Helper;
 import com.bhavit.pnrexpress.util.RestClient;
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.jaunt.Element;
 import com.jaunt.Elements;
 import com.jaunt.UserAgent;
@@ -30,9 +36,77 @@ public class TrainRouteService extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
+		Helper.setProxy();
 		String trainNo = (String) req.getParameter("trainno");
+		
+		String url = "http://railpnrapi.com/api/route/train/"
+				+ trainNo
+				+ "/format/json/pbapikey/"
+				+ Helper.publicapikey
+				+ "/pbapisign/"
+				+ HMACGenarator.getSignature(Helper.privateapikey, "json"
+						+ Helper.publicapikey + trainNo);
+		
+		RestClient client = new RestClient(url);
 
+		System.out.println(url);
+
+		String result = client.executeGet();
+		System.out.println(result);
+		
 		HashMap<Object, Object> map = new HashMap<Object, Object>();
+
+		try {
+			JSONObject root = new JSONObject(result);
+			if(!root.has("msg")){
+			
+				Train train = new Train();
+				train.setTrainName(root.getJSONObject("train").getString("name")+"("+root.getJSONObject("train").getString("number")+")");
+				//train.setRunsOn(runsOn);
+				
+				map.put("train_information", train);
+
+				List<Station> stations = new ArrayList<Station>();
+				JSONArray arr = root.getJSONObject("train").getJSONArray("route");
+				for(int i = 0 ; i<arr.length() ; i++){
+
+					JSONObject obj = arr.getJSONObject(i);
+					String stationNo = obj.getString("no");
+					String arrivalTime = obj.getString("arrival_time");
+					String departureTime = obj.getString("departure_time");
+					String stopTime = obj.getString("stop_time");
+					String day = obj.getString("day");
+					String distance = obj.getString("distance");
+
+					JSONObject station= obj.getJSONObject("station");
+					String stationName = station.getString("name");
+					String stationCode = station.getString("code");
+
+					JSONObject location = station.getJSONObject("location");
+					String latitude = location.getString("lat");
+					String longitude = location.getString("lng");
+
+
+					stations.add(new Station(stationName, stationCode, stationNo, arrivalTime, departureTime, stopTime, day, distance, latitude, longitude));
+
+				}
+				map.put("train_route", stations);
+
+			} else {
+				map.put("error", root.getString("msg"));
+			}
+
+		} catch(Exception e){
+			e.printStackTrace();
+			map.put("error", "Network Error Occurred. Please try again.");
+		}
+
+		Gson g = new Gson();
+
+		resp.setContentType("application/json");
+		resp.getWriter().print(g.toJson(map));
+
+		/*HashMap<Object, Object> map = new HashMap<Object, Object>();
 
 		try {
 			RestClient client = new RestClient("http://pnrbuddy.com/hauth/trainroute");
@@ -105,7 +179,7 @@ public class TrainRouteService extends HttpServlet {
 
 		resp.setContentType("application/json");
 		resp.getWriter().print(g.toJson(map));
-
+*/
 	}
 
 }
